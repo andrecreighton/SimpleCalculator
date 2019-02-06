@@ -13,10 +13,14 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var consoleLabel: UILabel!
   @IBOutlet var numberButtons: [UIButton]!
+  @IBOutlet var operationButtons: [UIButton]!
   
   
+  
+  var currentOperationButton = UIButton()
+  var isCurrentOperation = false
   var mutableNumber = ""
-  var numberArray = [Int]()
+  var numberArray = [0]
   var operation = Operation.add
   
   var currentNumber : Int = 0 {
@@ -26,51 +30,96 @@ class ViewController: UIViewController {
     }
   }
   
+  var symbolDictionary = ["+" : Operation.add,
+                          "-" : Operation.subtract,
+                          "÷" : Operation.divide,
+                          "x" : Operation.mulitply]
   
   
-  
-  
+
   @IBAction func whenClearButtonTouchUpInside(_ sender: Any) {
     let zero = 0
     consoleLabel.text = String(zero)
     mutableNumber = ""
     numberArray.removeAll()
+  
+    if(isCurrentOperation){
+      currentOperationButton.reverseColorEffect()
+    }
+
     
   }
+  
   
   
   @IBAction func whenNumberButtonTouchUpInside(_ sender: UIButton) {
     if sender.tag <= 9, sender.tag >= 0{
-    print("touched: \(sender.tag)")
-    currentNumber = sender.tag
-    }
     
+    currentNumber = sender.tag
+    print(sender.tag)
+    
+      
+    }
 }
 
-  @IBAction func whenAddButtonTouchedUpInside(_ sender: Any) {
+  @IBAction func whenActionButtonTouchedUpInside(_ sender: UIButton) {
     
-    operation = Operation.add
+    sender.reverseColorEffect()
+    currentOperationButton = sender
+    isCurrentOperation = true
+    for button in operationButtons {
+      if sender != button, button.backgroundColor == sender.backgroundColor {
+        button.reverseColorEffect()
+      }else if sender == button{
+        
+      }
+    }
     
-    guard let newInt = Int(consoleLabel.text!) else{
-      print("cannot convert to int")
+    
+    guard let symbol = sender.titleLabel?.text else{
+      print("couldn't translate symbol")
       return
     }
-  
-    numberArray.append(newInt)
-    mutableNumber = ""
-    consoleLabel.text = String(0)
+    
+    switch symbol {
+    case "+":
+      print("add")
+      operation = symbolDictionary[symbol] ?? .none
+      guard let newInt = Int(consoleLabel.text!) else{
+        print("cannot convert to int")
+        return
+      }
+      numberArray.append(newInt)
+      mutableNumber = ""
+      consoleLabel.text = String(0)
+      
+    case "-":
+      print("subtract")
+      operation = symbolDictionary[symbol] ?? .none
+    case "x":
+      print("multiply")
+      operation = symbolDictionary[symbol] ?? .none
+    case "÷":
+      print("divide")
+      operation = symbolDictionary[symbol] ?? .none
+    default:
+      print("Nada")
+    }
     
   }
   
+  
   private func performAddition(){
-    
+    // get the number that is adding on to the number already stored.
     guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
         print("could not convert string to int")
       return
     }
-    
+  
+    // set that number to sum
     var sum = numberOnScreen
     
+    //iterate all numbers and add to sum
     for i in numberArray {
       print(i)
       sum += i
@@ -82,23 +131,47 @@ class ViewController: UIViewController {
     numberArray.removeAll()
   }
   
-  @IBAction func whenEqualButtonTappedUpInside(_ sender: Any) {
+  private func performSubtraction(){
     
+    
+    
+    
+    
+  }
+  
+  @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
+    
+      sender.reverseColorEffect()
+      sender.reverseColorEffect()
+ 
+    if numberArray.count > 0{
     switch operation {
     case .add:
       performAddition()
+    case .subtract:
+      performSubtraction()
     default:
       print("do nothing")
     }
     
+    }else{
+      print("No numbers in array perform this instead")
+      mutableNumber = ""
+      numberArray.removeAll()
+    }
+    
+    if(isCurrentOperation){
+      currentOperationButton.reverseColorEffect()
+    }
+
   }
-  
   
   enum Operation {
     case add
     case subtract
     case mulitply
     case divide
+    case none
   }
   
   
@@ -111,7 +184,26 @@ class ViewController: UIViewController {
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
+  
+  override var prefersStatusBarHidden: Bool{
+    return false
+  }
 }
 
 
 
+extension UIButton {
+
+  func reverseColorEffect(){
+    
+    UIView.animate(withDuration: 0.3) {
+      let backgroundColor = self.backgroundColor
+      let titleColor = self.titleColor(for: .normal)
+      
+      self.setTitleColor(backgroundColor, for: .normal)
+      self.backgroundColor = titleColor
+    }
+
+  }
+  
+}
