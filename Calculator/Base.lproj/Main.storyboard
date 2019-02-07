@@ -44,7 +44,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jKj-zA-7j6">
-                                        <rect key="frame" x="189.66666666666663" y="0.0" width="93.666666666666657" height="109.33333333333333"/>
+                                        <rect key="frame" x="189.66666666666666" y="0.0" width="93.666666666666657" height="109.33333333333333"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="45"/>
                                         <state key="normal" title="3">
@@ -55,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uwa-47-0Di">
-                                        <rect key="frame" x="285.33333333333326" y="0.0" width="89.666666666666686" height="109.33333333333333"/>
+                                        <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.33333333333333"/>
                                         <color key="backgroundColor" red="0.97969323399999997" green="0.27228891849999998" blue="0.40263473989999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
                                         <state key="normal" title="x">
@@ -103,7 +103,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qI1-nj-WhL">
-                                        <rect key="frame" x="189.66666666666663" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
+                                        <rect key="frame" x="189.66666666666666" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="45"/>
                                         <state key="normal" title="6">
@@ -114,7 +114,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrS-Sf-eaD">
-                                        <rect key="frame" x="285.33333333333326" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
+                                        <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
                                         <color key="backgroundColor" red="0.97969323399999997" green="0.27228891849999998" blue="0.40263473989999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
                                         <state key="normal" title="-">
@@ -162,7 +162,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h6K-Ij-AQs">
-                                        <rect key="frame" x="189.66666666666663" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
+                                        <rect key="frame" x="189.66666666666666" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="45"/>
                                         <state key="normal" title="9">
@@ -173,7 +173,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOe-hK-anw">
-                                        <rect key="frame" x="285.33333333333326" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
+                                        <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
                                         <color key="backgroundColor" red="0.97969323399999997" green="0.27228891849999998" blue="0.40263473989999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
                                         <state key="normal" title="+">
@@ -212,7 +212,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAA-80-rXB">
-                                        <rect key="frame" x="189.66666666666663" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
+                                        <rect key="frame" x="189.66666666666666" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="45"/>
                                         <state key="normal" title=".">
@@ -220,7 +220,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5P-h4-BNf">
-                                        <rect key="frame" x="285.33333333333326" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
+                                        <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
                                         <color key="backgroundColor" red="0.97969323399999997" green="0.27228891849999998" blue="0.40263473989999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
                                         <state key="normal" title="=">
@@ -271,17 +271,23 @@
                                         <state key="normal" title="+/-">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="whenNegateTappedUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QOi-ru-vOZ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1xq-Db-6K2">
-                                        <rect key="frame" x="189.66666666666663" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
+                                        <rect key="frame" x="189.66666666666666" y="0.0" width="93.666666666666657" height="109.66666666666667"/>
                                         <color key="backgroundColor" red="0.4687571526" green="0.56393593549999999" blue="0.90434616800000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="25"/>
                                         <state key="normal" title="%">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="whenPercentTappedUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wtT-eC-CLa"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gQe-i5-xnW">
-                                        <rect key="frame" x="285.33333333333326" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
+                                        <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
                                         <color key="backgroundColor" red="0.97969323399999997" green="0.27228891849999998" blue="0.40263473989999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="40"/>
                                         <state key="normal" title="÷">

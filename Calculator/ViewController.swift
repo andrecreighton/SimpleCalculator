@@ -10,16 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
   
-  
   @IBOutlet weak var consoleLabel: UILabel!
   @IBOutlet var numberButtons: [UIButton]!
   @IBOutlet var operationButtons: [UIButton]!
-  
   
   var currentOperationButton = UIButton()
   var isCurrentOperation = false
   var mutableNumber = ""
   var numberArray = [Int]()
+  var answerArray = [Int]()
   var operation = Calculation.Operation.add
   
   var currentNumber : Int = 0 {
@@ -29,13 +28,7 @@ class ViewController: UIViewController {
       consoleLabel.text = String(mutableNumber)
     }
   }
-  
-  var symbolDictionary = ["+" : Calculation.Operation.add,
-                          "-" : Calculation.Operation.subtract,
-                          "÷" : Calculation.Operation.divide,
-                          "x" : Calculation.Operation.mulitply]
-  
-  
+
 
   @IBAction func whenClearButtonTouchUpInside(_ sender: Any) {
     let zero = 0
@@ -60,29 +53,64 @@ class ViewController: UIViewController {
   
   @IBAction func whenActionButtonTouchedUpInside(_ sender: UIButton) {
     
-    sender.reverseColorEffect()
-    currentOperationButton = sender
-    isCurrentOperation = true
     
-    for button in operationButtons {
-      if sender != button, button.backgroundColor == sender.backgroundColor {
-        button.reverseColorEffect()
+    if !(isCurrentOperation){
+      print("no current operation")
+      sender.reverseColorEffect()
+      currentOperationButton = sender
+      isCurrentOperation = true
+    }else{
+      print("current opertaion highlighted")
+      for button in operationButtons {
+        if button == sender {
+         //do nothing
+        }else{
+          sender.reverseColorEffect()
+          currentOperationButton.reverseColorEffect()
+          currentOperationButton = sender
+          isCurrentOperation = true
+        }
       }
+      
     }
-    
     guard let symbol = sender.titleLabel?.text else{
       print("couldn't translate symbol")
       return
     }
+    
     processUsingSymbol(symbol)
     
   }
-
+  
+  @IBAction func whenNegateTappedUpInside(_ sender: Any) {
+    
+    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
+      print("could not convert string to int")
+      return
+    }
+    
+    let newNum = Calculation.negateUsing(numberOnScreen)
+    mutableNumber = ""
+    currentNumber = newNum
+    
+  }
+  
+  @IBAction func whenPercentTappedUpInside(_ sender: Any) {
+    
+    guard let numberOnScreen = Double(consoleLabel.text ?? "0") else{
+      print("could not convert string to int")
+      return
+    }
+    
+    let percentage = Calculation.getPercentageUsing(numberOnScreen)
+    mutableNumber = ""
+    print(percentage)
+  //  currentNumber = percentage
+    
+  }
+  
   
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
-    
-      sender.reverseColorEffect()
-      sender.reverseColorEffect()
  
     if numberArray.count > 0{
       
@@ -102,13 +130,11 @@ class ViewController: UIViewController {
       mutableNumber = ""
       numberArray.removeAll()
     }
-    
     // whatever operation button is highlighted, should be reversed back to normal. set current operation to false.
     if(isCurrentOperation){
       currentOperationButton.reverseColorEffect()
       isCurrentOperation = false
     }
-
   }
 
   func processUsingSymbol(_ symbol:String){
@@ -116,7 +142,7 @@ class ViewController: UIViewController {
     switch symbol {
     case "+":
       print("add")
-      operation = symbolDictionary[symbol] ?? .none
+      operation = Calculation.symbolDictionary[symbol] ?? .none
       guard let newInt = Int(consoleLabel.text!) else{
         print("cannot convert to int")
         return
@@ -127,13 +153,13 @@ class ViewController: UIViewController {
       
     case "-":
       print("subtract")
-      operation = symbolDictionary[symbol] ?? .none
+      operation = Calculation.symbolDictionary[symbol] ?? .none
     case "x":
       print("multiply")
-      operation = symbolDictionary[symbol] ?? .none
+      operation = Calculation.symbolDictionary[symbol] ?? .none
     case "÷":
       print("divide")
-      operation = symbolDictionary[symbol] ?? .none
+      operation = Calculation.symbolDictionary[symbol] ?? .none
     default:
       print("Nada")
     }
@@ -141,8 +167,7 @@ class ViewController: UIViewController {
   }
   
   func performAddition(){
-    // set number on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
-    
+    // convert String on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
     guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
       print("could not convert string to int")
       return
@@ -157,19 +182,13 @@ class ViewController: UIViewController {
     numberArray.removeAll()
   }
   
-  
-  
   func performSubtraction(){
-    
-    
-    
-    
     
   }
   
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -182,5 +201,7 @@ class ViewController: UIViewController {
 }
 
 
+
+// TASK : WHEN CALCULATIONS COMPLETE, START ADDING DOUBLE VALUES
 
 

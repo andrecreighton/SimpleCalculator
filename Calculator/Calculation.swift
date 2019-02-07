@@ -19,6 +19,20 @@ class Calculation {
   }
   
   
+  static var symbolDictionary = ["+" : Operation.add,
+                                 "-" : Operation.subtract,
+                                 "÷" : Operation.divide,
+                                 "x" : Operation.mulitply]
+
+  
+  static func negateUsing(_ number:Int) -> Int {
+    return number * -1
+  }
+  
+  static func getPercentageUsing(_ number:Double) -> Double {
+    return number/100
+  }
+  
   static func performAdditionGiven(_ addendArray:[Int]) ->Int{
     
     var sum = 0
@@ -30,6 +44,8 @@ class Calculation {
   
     return sum
   }
+
+  
 
   
 }
