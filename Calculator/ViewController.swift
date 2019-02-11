@@ -16,17 +16,17 @@ class ViewController: UIViewController {
   
   var currentOperationButton = UIButton()
   var isCurrentOperation = false
-  var mutableNumber = ""
+  var mutableNumberString = ""
   var numberArray = [Int]()
   var answerArray = [Int]()
   var operation = Calculation.Operation.add
-  var difference = 0
+  
   
   var currentNumber : Int = 0 {
     didSet{
-      mutableNumber = mutableNumber + String(currentNumber)
-      print("mutableNumber:\(mutableNumber)")
-      consoleLabel.text = String(mutableNumber)
+      mutableNumberString = mutableNumberString + String(currentNumber)
+      print("mutableNumberString:\(mutableNumberString)")
+      consoleLabel.text = String(mutableNumberString)
     }
   }
 
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
   @IBAction func whenClearButtonTouchUpInside(_ sender: Any) {
     let zero = 0
     consoleLabel.text = String(zero)
-    mutableNumber = ""
+    mutableNumberString = ""
     numberArray.removeAll()
   
     if(isCurrentOperation){
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
     }
     
     let newNum = Calculation.negateUsing(numberOnScreen)
-    mutableNumber = ""
+    mutableNumberString = ""
     currentNumber = newNum
     
   }
@@ -104,7 +104,7 @@ class ViewController: UIViewController {
     }
     
     let percentage = Calculation.getPercentageUsing(numberOnScreen)
-    mutableNumber = ""
+    mutableNumberString = ""
     print(percentage)
   //  currentNumber = percentage
     
@@ -112,23 +112,29 @@ class ViewController: UIViewController {
   
   
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
- 
+
+
+    print("mutableNumberString: \(mutableNumberString)")
     if numberArray.count > 0{
       
       print(numberArray)
-      
     switch operation {
     case .add:
       performAddition()
+      mutableNumberString = ""
     case .subtract:
       performSubtraction()
+      mutableNumberString = ""
+    case .mulitply:
+      performMultiplication()
+      mutableNumberString = ""
     default:
       print("do nothing")
     }
     
     }else{
       print("No numbers in array perform this instead")
-      mutableNumber = ""
+      mutableNumberString = ""
       numberArray.removeAll()
     }
     // whatever operation button is highlighted, should be reversed back to normal. set current operation to false.
@@ -149,8 +155,8 @@ class ViewController: UIViewController {
         return
       }
       numberArray.append(newInt)
-      mutableNumber = ""
-      consoleLabel.text = String(0)
+      mutableNumberString = ""
+      
       
     case "-":
       print("subtract")
@@ -161,11 +167,19 @@ class ViewController: UIViewController {
       }
       
       numberArray.append(newInt)
-      mutableNumber = ""
-      consoleLabel.text = String(0)
+      mutableNumberString = ""
+      
     case "x":
       print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
+      guard let newInt = Int(consoleLabel.text!) else{
+        print("cannot convert to int")
+        return
+      }
+      
+      numberArray.append(newInt)
+      mutableNumberString = ""
+      
     case "÷":
       print("divide")
       operation = Calculation.symbolDictionary[symbol] ?? .none
@@ -186,7 +200,7 @@ class ViewController: UIViewController {
     
     let sum = Calculation.performAdditionGiven(numberArray)
     
-    mutableNumber = ""
+    mutableNumberString = ""
     currentNumber = sum
     numberArray.removeAll()
   }
@@ -198,13 +212,26 @@ class ViewController: UIViewController {
     }
     
     numberArray.append(numberOnScreen)
-    difference = Calculation.performSubtraction(numberArray)
+    let difference = Calculation.performSubtractionUsing(numberArray)
     
-    mutableNumber = ""
+    mutableNumberString = ""
     currentNumber = difference
     numberArray.removeAll()
   }
   
+  func performMultiplication(){
+    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
+      print("could not convert string to int")
+      return
+    }
+    
+    numberArray.append(numberOnScreen)
+    let product = Calculation.performMultiplicationUsing(numberArray)
+    
+    mutableNumberString = ""
+    currentNumber = product
+    numberArray.removeAll()
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

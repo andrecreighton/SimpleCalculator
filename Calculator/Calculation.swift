@@ -33,7 +33,15 @@ class Calculation {
     return number/100
   }
   
-  static func performSubtraction(_ subtractionArray:[Int]) -> Int{
+  static func performMultiplicationUsing(_ multiplyArray:[Int]) -> Int{
+  
+  let count = multiplyArray.count
+  let first = multiplyArray[count-2]
+  let second = multiplyArray[count-1]
+  
+  return first * second
+  }
+  static func performSubtractionUsing(_ subtractionArray:[Int]) -> Int{
     
     let count = subtractionArray.count
     let first = subtractionArray[count-2]
@@ -43,14 +51,11 @@ class Calculation {
   }
   
   static func performAdditionGiven(_ addendArray:[Int]) ->Int{
-    
     var sum = 0
-    
     for addend in addendArray {
       sum += addend
       
     }
-  
     return sum
   }
 
