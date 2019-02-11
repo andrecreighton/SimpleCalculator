@@ -33,6 +33,15 @@ class Calculation {
     return number/100
   }
   
+  static func performSubtraction(_ subtractionArray:[Int]) -> Int{
+    
+    let count = subtractionArray.count
+    let first = subtractionArray[count-2]
+    let second = subtractionArray[count-1]
+    
+    return first - second
+  }
+  
   static func performAdditionGiven(_ addendArray:[Int]) ->Int{
     
     var sum = 0

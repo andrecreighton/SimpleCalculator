@@ -20,6 +20,7 @@ class ViewController: UIViewController {
   var numberArray = [Int]()
   var answerArray = [Int]()
   var operation = Calculation.Operation.add
+  var difference = 0
   
   var currentNumber : Int = 0 {
     didSet{
@@ -154,6 +155,14 @@ class ViewController: UIViewController {
     case "-":
       print("subtract")
       operation = Calculation.symbolDictionary[symbol] ?? .none
+      guard let newInt = Int(consoleLabel.text!) else{
+        print("cannot convert to int")
+        return
+      }
+      
+      numberArray.append(newInt)
+      mutableNumber = ""
+      consoleLabel.text = String(0)
     case "x":
       print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
@@ -183,7 +192,17 @@ class ViewController: UIViewController {
   }
   
   func performSubtraction(){
+    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
+      print("could not convert string to int")
+      return
+    }
     
+    numberArray.append(numberOnScreen)
+    difference = Calculation.performSubtraction(numberArray)
+    
+    mutableNumber = ""
+    currentNumber = difference
+    numberArray.removeAll()
   }
   
   
