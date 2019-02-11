@@ -220,10 +220,8 @@ class ViewController: UIViewController {
   }
   
   func performMultiplication(){
-    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
-      print("could not convert string to int")
-      return
-    }
+ 
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
     
     numberArray.append(numberOnScreen)
     let product = Calculation.performMultiplicationUsing(numberArray)
@@ -232,6 +230,15 @@ class ViewController: UIViewController {
     currentNumber = product
     numberArray.removeAll()
   }
+  
+  
+  func convertedIntFromString(_ stringValue: String?) -> Int {
+    
+  let numberValue = Int(stringValue ?? "0")
+  return numberValue!
+  
+  }
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -245,6 +252,8 @@ class ViewController: UIViewController {
     return false
   }
 }
+
+
 
 
 
