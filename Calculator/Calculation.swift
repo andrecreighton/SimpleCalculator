@@ -19,6 +19,7 @@ class Calculation {
   }
   
   
+  
   static var symbolDictionary = ["+" : Operation.add,
                                  "-" : Operation.subtract,
                                  "÷" : Operation.divide,
@@ -31,6 +32,20 @@ class Calculation {
   
   static func getPercentageUsing(_ number:Double) -> Double {
     return number/100
+  }
+  
+  
+  
+  static func performDivisionUsing(_ divisionArray:[Double]) -> Double{
+    
+    let count = divisionArray.count
+    let first = divisionArray[count-2]
+    let second = divisionArray[count-1]
+    
+  
+    let quotient = first/second
+    return quotient
+  
   }
   
   static func performMultiplicationUsing(_ multiplyArray:[Int]) -> Int{
@@ -51,12 +66,12 @@ class Calculation {
   }
   
   static func performAdditionGiven(_ addendArray:[Int]) ->Int{
-    var sum = 0
-    for addend in addendArray {
-      sum += addend
-      
-    }
-    return sum
+
+    let count = addendArray.count
+    let first = addendArray[count-2]
+    let second = addendArray[count-1]
+
+    return first + second
   }
 
   

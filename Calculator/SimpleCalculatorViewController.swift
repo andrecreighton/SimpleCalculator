@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SimpleCalculatorViewController: UIViewController {
   
   @IBOutlet weak var consoleLabel: UILabel!
   @IBOutlet var numberButtons: [UIButton]!
@@ -18,7 +18,7 @@ class ViewController: UIViewController {
   var isCurrentOperation = false
   var mutableNumberString = ""
   var numberArray = [Int]()
-  var answerArray = [Int]()
+  var doubleArray = [Double]()
   var operation = Calculation.Operation.add
   
   
@@ -26,17 +26,19 @@ class ViewController: UIViewController {
     didSet{
       mutableNumberString = mutableNumberString + String(currentNumber)
       print("mutableNumberString:\(mutableNumberString)")
-      consoleLabel.text = String(mutableNumberString)
+      consoleLabel.text = mutableNumberString
     }
   }
 
 
   @IBAction func whenClearButtonTouchUpInside(_ sender: Any) {
+    
     let zero = 0
     consoleLabel.text = String(zero)
     mutableNumberString = ""
     numberArray.removeAll()
-  
+    doubleArray.removeAll()
+    
     if(isCurrentOperation){
       currentOperationButton.reverseColorEffect()
       isCurrentOperation = false
@@ -85,10 +87,7 @@ class ViewController: UIViewController {
   
   @IBAction func whenNegateTappedUpInside(_ sender: Any) {
     
-    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
-      print("could not convert string to int")
-      return
-    }
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
     
     let newNum = Calculation.negateUsing(numberOnScreen)
     mutableNumberString = ""
@@ -98,26 +97,20 @@ class ViewController: UIViewController {
   
   @IBAction func whenPercentTappedUpInside(_ sender: Any) {
     
-    guard let numberOnScreen = Double(consoleLabel.text ?? "0") else{
-      print("could not convert string to int")
-      return
-    }
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
     
-    let percentage = Calculation.getPercentageUsing(numberOnScreen)
+    let percentage = Calculation.getPercentageUsing(Double(numberOnScreen))
     mutableNumberString = ""
     print(percentage)
   //  currentNumber = percentage
     
   }
   
-  
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
 
-
     print("mutableNumberString: \(mutableNumberString)")
-    if numberArray.count > 0{
+    if numberArray.count > 0 || doubleArray.count > 0 {
       
-      print(numberArray)
     switch operation {
     case .add:
       performAddition()
@@ -127,6 +120,9 @@ class ViewController: UIViewController {
       mutableNumberString = ""
     case .mulitply:
       performMultiplication()
+      mutableNumberString = ""
+    case .divide:
+      performDivision()
       mutableNumberString = ""
     default:
       print("do nothing")
@@ -150,21 +146,14 @@ class ViewController: UIViewController {
     case "+":
       print("add")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      guard let newInt = Int(consoleLabel.text!) else{
-        print("cannot convert to int")
-        return
-      }
+      let newInt = convertedIntFromString(consoleLabel.text)
       numberArray.append(newInt)
       mutableNumberString = ""
-      
       
     case "-":
       print("subtract")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      guard let newInt = Int(consoleLabel.text!) else{
-        print("cannot convert to int")
-        return
-      }
+      let newInt = convertedIntFromString(consoleLabel.text)
       
       numberArray.append(newInt)
       mutableNumberString = ""
@@ -172,10 +161,7 @@ class ViewController: UIViewController {
     case "x":
       print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      guard let newInt = Int(consoleLabel.text!) else{
-        print("cannot convert to int")
-        return
-      }
+      let newInt = convertedIntFromString(consoleLabel.text)
       
       numberArray.append(newInt)
       mutableNumberString = ""
@@ -183,54 +169,15 @@ class ViewController: UIViewController {
     case "÷":
       print("divide")
       operation = Calculation.symbolDictionary[symbol] ?? .none
+      let newInt = convertedIntFromString(consoleLabel.text)
+      
+      doubleArray.append(Double(newInt))
+      mutableNumberString = ""
     default:
       print("Nada")
     }
     
   }
-  
-  func performAddition(){
-    // convert String on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
-    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
-      print("could not convert string to int")
-      return
-    }
-    let addend = numberOnScreen
-    numberArray.append(addend)
-    
-    let sum = Calculation.performAdditionGiven(numberArray)
-    
-    mutableNumberString = ""
-    currentNumber = sum
-    numberArray.removeAll()
-  }
-  
-  func performSubtraction(){
-    guard let numberOnScreen = Int(consoleLabel.text ?? "0") else{
-      print("could not convert string to int")
-      return
-    }
-    
-    numberArray.append(numberOnScreen)
-    let difference = Calculation.performSubtractionUsing(numberArray)
-    
-    mutableNumberString = ""
-    currentNumber = difference
-    numberArray.removeAll()
-  }
-  
-  func performMultiplication(){
- 
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    
-    numberArray.append(numberOnScreen)
-    let product = Calculation.performMultiplicationUsing(numberArray)
-    
-    mutableNumberString = ""
-    currentNumber = product
-    numberArray.removeAll()
-  }
-  
   
   func convertedIntFromString(_ stringValue: String?) -> Int {
     
@@ -255,6 +202,64 @@ class ViewController: UIViewController {
 
 
 
+extension SimpleCalculatorViewController {
+  
+  func performAddition(){
+    // convert String on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    numberArray.append(numberOnScreen)
+    
+    let sum = Calculation.performAdditionGiven(numberArray)
+    
+    mutableNumberString = ""
+    currentNumber = sum
+  }
+  
+  func performSubtraction(){
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    
+    numberArray.append(numberOnScreen)
+    let difference = Calculation.performSubtractionUsing(numberArray)
+    
+    mutableNumberString = ""
+    currentNumber = difference
+  }
+  
+  func performMultiplication(){
+    
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    
+    numberArray.append(numberOnScreen)
+    let product = Calculation.performMultiplicationUsing(numberArray)
+    
+    mutableNumberString = ""
+    currentNumber = product
+  }
+  
+  
+  func performDivision(){
+    
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    
+    doubleArray.append(Double(numberOnScreen))
+    let quotient = Calculation.performDivisionUsing(doubleArray)
+    
+    mutableNumberString = ""
+    print("quotient \(quotient)")
+    
+    if(floor(quotient) == quotient){
+      print("is an integer")
+      currentNumber = Int(quotient)
+      
+    }else{
+      consoleLabel.text = "\(quotient.rounded(toPlaces: 5))"
+      print("not an integer")
+    }
+    //currentNumber = quotient
+    
+    
+  }
+}
 
 
 // TASK : WHEN CALCULATIONS COMPLETE, START ADDING DOUBLE VALUES
