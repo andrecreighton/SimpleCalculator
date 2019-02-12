@@ -206,34 +206,48 @@ extension SimpleCalculatorViewController {
   
   func performAddition(){
     // convert String on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
+    if(isCurrentOperation){
     let numberOnScreen = convertedIntFromString(consoleLabel.text)
     numberArray.append(numberOnScreen)
-    
     let sum = Calculation.performAdditionGiven(numberArray)
-    
     mutableNumberString = ""
     currentNumber = sum
+    }else{
+      
+    // When currentOperation has no value, perform last operation.
+      mutableNumberString = ""
+      currentNumber += numberArray.last!
+    }
   }
   
   func performSubtraction(){
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
     
+    if(isCurrentOperation){
+    let numberOnScreen = convertedIntFromString(consoleLabel.text)
     numberArray.append(numberOnScreen)
     let difference = Calculation.performSubtractionUsing(numberArray)
-    
     mutableNumberString = ""
     currentNumber = difference
+    }else{
+      // When currentOperation has no value, perform last operation.
+      mutableNumberString = ""
+      currentNumber -= numberArray.last!
+    }
   }
   
   func performMultiplication(){
     
+    if(isCurrentOperation){
     let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    
     numberArray.append(numberOnScreen)
     let product = Calculation.performMultiplicationUsing(numberArray)
-    
     mutableNumberString = ""
-    currentNumber = product
+      currentNumber = product
+    }else{
+      // When currentOperation has no value, perform last operation.
+      mutableNumberString = ""
+      currentNumber *= numberArray.last!
+    }
   }
   
   
