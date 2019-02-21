@@ -13,12 +13,15 @@ class SimpleCalculatorViewController: UIViewController {
   @IBOutlet weak var consoleLabel: UILabel!
   @IBOutlet var numberButtons: [UIButton]!
   @IBOutlet var operationButtons: [UIButton]!
+  @IBOutlet weak var decimalButton: UIButton!
   
   var currentOperationButton = UIButton()
+  var containsDecimal = false
   var isCurrentOperation = false
   var mutableNumberString = ""
-  var numberArray = [Int]()
+  var integerArray = [Int]()
   var doubleArray = [Double]()
+  var numberArray = [Double]()
   var operation = Calculation.Operation.add
   
   
@@ -36,8 +39,9 @@ class SimpleCalculatorViewController: UIViewController {
     let zero = 0
     consoleLabel.text = String(zero)
     mutableNumberString = ""
-    numberArray.removeAll()
+    integerArray.removeAll()
     doubleArray.removeAll()
+    containsDecimal = false
     
     if(isCurrentOperation){
       currentOperationButton.reverseColorEffect()
@@ -53,6 +57,20 @@ class SimpleCalculatorViewController: UIViewController {
     print(sender.tag)
     }
 }
+  
+  @IBAction func whenDecimalPointTouchUpInside(_ sender: Any) {
+    
+    if(containsDecimal){
+      // do nothing
+    }else{
+      mutableNumberString.append(".")
+      consoleLabel.text?.append(".")
+      containsDecimal = true
+    }
+    
+    
+  }
+  
   
   @IBAction func whenActionButtonTouchedUpInside(_ sender: UIButton) {
     
@@ -80,7 +98,9 @@ class SimpleCalculatorViewController: UIViewController {
       print("couldn't translate symbol")
       return
     }
+
     
+    containsDecimal = false
     processUsingSymbol(symbol)
     
   }
@@ -108,8 +128,8 @@ class SimpleCalculatorViewController: UIViewController {
   
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
 
-    print("mutableNumberString: \(mutableNumberString)")
-    if numberArray.count > 0 || doubleArray.count > 0 {
+    print("Number Array Count \(numberArray.count)")
+    if numberArray.count > 0 {
       
     switch operation {
     case .add:
@@ -131,7 +151,7 @@ class SimpleCalculatorViewController: UIViewController {
     }else{
       print("No numbers in array perform this instead")
       mutableNumberString = ""
-      numberArray.removeAll()
+      integerArray.removeAll()
     }
     // whatever operation button is highlighted, should be reversed back to normal. set current operation to false.
     if(isCurrentOperation){
@@ -142,36 +162,49 @@ class SimpleCalculatorViewController: UIViewController {
 
   func processUsingSymbol(_ symbol:String){
     
+    // returns value of string whether its a integer or a double
+    let foo = Calculation.ValueType.getValueFrom(aString: consoleLabel.text!)
+    
+    // adds number to specific array based on type
+    switch foo  {
+    case .double(let numThatIsDouble):
+     // doubleArray.append(numThatIsDouble)
+      numberArray.append(numThatIsDouble)
+      print("number of double value added to Array")
+    case .int(let numThatIsInt):
+      numberArray.append(Double(numThatIsInt))
+      print("number of integer value added to number Array")
+    }
+    
+    
     switch symbol {
     case "+":
       print("add")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      let newInt = convertedIntFromString(consoleLabel.text)
-      numberArray.append(newInt)
+      //      let newInt = convertedIntFromString(consoleLabel.text)
+      
+      //integerArray.append(newInt)
       mutableNumberString = ""
       
     case "-":
       print("subtract")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      let newInt = convertedIntFromString(consoleLabel.text)
-      
-      numberArray.append(newInt)
+
+    //  integerArray.append(newInt)
       mutableNumberString = ""
       
     case "x":
       print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      let newInt = convertedIntFromString(consoleLabel.text)
-      
-      numberArray.append(newInt)
+
+   //   integerArray.append(newInt)
       mutableNumberString = ""
       
     case "÷":
       print("divide")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      let newInt = convertedIntFromString(consoleLabel.text)
-      
-      doubleArray.append(Double(newInt))
+
+ //     doubleArray.append(Double(newInt))
       mutableNumberString = ""
     default:
       print("Nada")
@@ -202,78 +235,6 @@ class SimpleCalculatorViewController: UIViewController {
 
 
 
-extension SimpleCalculatorViewController {
-  
-  func performAddition(){
-    // convert String on screen to int value and add it to numberArray. Use the Calculation function performAdditionGiven(:) to get total sum
-    if(isCurrentOperation){
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    numberArray.append(numberOnScreen)
-    let sum = Calculation.performAdditionGiven(numberArray)
-    mutableNumberString = ""
-    currentNumber = sum
-    }else{
-      
-    // When currentOperation has no value, perform last operation.
-      mutableNumberString = ""
-      currentNumber += numberArray.last!
-    }
-  }
-  
-  func performSubtraction(){
-    
-    if(isCurrentOperation){
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    numberArray.append(numberOnScreen)
-    let difference = Calculation.performSubtractionUsing(numberArray)
-    mutableNumberString = ""
-    currentNumber = difference
-    }else{
-      // When currentOperation has no value, perform last operation.
-      mutableNumberString = ""
-      currentNumber -= numberArray.last!
-    }
-  }
-  
-  func performMultiplication(){
-    
-    if(isCurrentOperation){
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    numberArray.append(numberOnScreen)
-    let product = Calculation.performMultiplicationUsing(numberArray)
-    mutableNumberString = ""
-      currentNumber = product
-    }else{
-      // When currentOperation has no value, perform last operation.
-      mutableNumberString = ""
-      currentNumber *= numberArray.last!
-    }
-  }
-  
-  
-  func performDivision(){
-    
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
-    
-    doubleArray.append(Double(numberOnScreen))
-    let quotient = Calculation.performDivisionUsing(doubleArray)
-    
-    mutableNumberString = ""
-    print("quotient \(quotient)")
-    
-    if(floor(quotient) == quotient){
-      print("is an integer")
-      currentNumber = Int(quotient)
-      
-    }else{
-      consoleLabel.text = "\(quotient.rounded(toPlaces: 5))"
-      print("not an integer")
-    }
-    //currentNumber = quotient
-    
-    
-  }
-}
 
 
 // TASK : WHEN CALCULATIONS COMPLETE, START ADDING DOUBLE VALUES

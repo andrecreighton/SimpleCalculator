@@ -10,6 +10,12 @@ import Foundation
 
 class Calculation {
   
+  
+  static var symbolDictionary = ["+" : Operation.add,
+                                 "-" : Operation.subtract,
+                                 "÷" : Operation.divide,
+                                 "x" : Operation.mulitply]
+  
   enum Operation {
     case add
     case subtract
@@ -18,13 +24,22 @@ class Calculation {
     case none
   }
   
+  enum ValueType {
+    
+    case double(Double)
+    case int(Int)
+    
+    static func getValueFrom(aString: String) -> ValueType {
+      
+      if aString.contains("."){
+        return .double(Double(aString) ?? 0)
+      }else{
+        return .int(Int(aString) ?? 0)
+      }
+    }
+    
+  }
   
-  
-  static var symbolDictionary = ["+" : Operation.add,
-                                 "-" : Operation.subtract,
-                                 "÷" : Operation.divide,
-                                 "x" : Operation.mulitply]
-
   
   static func negateUsing(_ number:Int) -> Int {
     return number * -1
@@ -65,13 +80,16 @@ class Calculation {
     return first - second
   }
   
-  static func performAdditionGiven(_ addendArray:[Int]) ->Int{
+  static func performAdditionGiven(_ addendArray:[Double]) ->Double{
 
     let count = addendArray.count
-    let first = addendArray[count-2]
-    let second = addendArray[count-1]
+    
+    let xNUM = addendArray[count-2]
+    let yNUM = addendArray[count-1]
 
-    return first + second
+    let sum = xNUM + yNUM
+    
+    return sum
   }
 
   

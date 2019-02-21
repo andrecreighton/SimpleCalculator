@@ -218,6 +218,9 @@
                                         <state key="normal" title=".">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="whenDecimalPointTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="thL-ff-hMb"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5P-h4-BNf">
                                         <rect key="frame" x="285.33333333333331" y="0.0" width="89.666666666666686" height="109.66666666666667"/>
@@ -355,6 +358,7 @@
                     </view>
                     <connections>
                         <outlet property="consoleLabel" destination="0pj-Kz-SuO" id="OWf-OC-jg5"/>
+                        <outlet property="decimalButton" destination="dAA-80-rXB" id="Tel-Yy-gXU"/>
                         <outletCollection property="numberButtons" destination="94W-uA-uD3" collectionClass="NSMutableArray" id="PeN-qh-GjY"/>
                         <outletCollection property="operationButtons" destination="WOe-hK-anw" collectionClass="NSMutableArray" id="nkc-GV-D5C"/>
                         <outletCollection property="operationButtons" destination="lrS-Sf-eaD" collectionClass="NSMutableArray" id="kat-Y5-bKF"/>
