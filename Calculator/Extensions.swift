@@ -14,53 +14,61 @@ import UIKit
 extension SimpleCalculatorViewController {
   
   
+  func consoleWillDisplayAnswer(_ answer:Double){
+    
+    // This prints the answer to the console depending on whether the answer has a double with a number after decimal point
+    
+    if floor(answer) == answer {
+      print(Int(answer))
+      self.consoleLabel.text = "\(Int(answer))"
+    }else{
+      print(answer)
+      self.consoleLabel.text = "\(answer)"
+    }
+    
+  }
+  
+  
   func performAddition(){
     // convert String on screen to int value and add it to integerArray. Use the Calculation function performAdditionGiven(:) to get total sum
+    
     if(isCurrentOperation){
-      let numberOnScreen = Calculation.ValueType.getValueFrom(aString: consoleLabel.text!)
-      // adds number to specific array based on type
-      switch numberOnScreen  {
-      case .double(let numThatIsDouble):
-        // doubleArray.append(numThatIsDouble)
-        numberArray.append(numThatIsDouble)
-        print("number of double value added to Array")
-      case .int(let numThatIsInt):
-        numberArray.append(Double(numThatIsInt))
-        print("number of integer value added to number Array")
-      }
+      
+      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      numberArray.append(numberCurrentlyOnScreen)
       
       mutableNumberString = ""
       let sum = Calculation.performAdditionGiven(numberArray)
-      
-      if floor(sum) == sum {
-        print(Int(sum))
-        self.consoleLabel.text = "\(Int(sum))"
-      }else{
-        print(sum)
-        self.consoleLabel.text = "\(sum)"
-      }
+      latestNum = sum
+      consoleWillDisplayAnswer(sum)
       
     }else{
       
       // When currentOperation has no value, perform last operation.
       mutableNumberString = ""
+      latestNum += numberArray.last!
+      consoleWillDisplayAnswer(latestNum)
       
-      currentNumber += integerArray.last!
+      
     }
   }
   
   func performSubtraction(){
     
     if(isCurrentOperation){
-      let numberOnScreen = convertedIntFromString(consoleLabel.text)
-      integerArray.append(numberOnScreen)
-      let difference = Calculation.performSubtractionUsing(integerArray)
+      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      numberArray.append(numberCurrentlyOnScreen)
+  
+      let difference = Calculation.performSubtractionUsing(numberArray)
+      latestNum = difference
       mutableNumberString = ""
-      currentNumber = difference
+      consoleWillDisplayAnswer(difference)
+      
     }else{
       // When currentOperation has no value, perform last operation.
       mutableNumberString = ""
-      currentNumber -= integerArray.last!
+      latestNum -= numberArray.last!
+      consoleWillDisplayAnswer(latestNum)
     }
   }
   

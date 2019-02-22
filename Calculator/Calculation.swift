@@ -38,8 +38,15 @@ class Calculation {
       }
     }
     
+    static func returnDoubleValue(aString: String) -> Double {
+      return Double(aString) ?? 0.0
+    }
+    
   }
   
+  static func returnDoubleValue(aString: String) -> Double {
+    return Double(aString) ?? 0.0
+  }
   
   static func negateUsing(_ number:Int) -> Int {
     return number * -1
@@ -71,13 +78,14 @@ class Calculation {
   
   return first * second
   }
-  static func performSubtractionUsing(_ subtractionArray:[Int]) -> Int{
+  static func performSubtractionUsing(_ subtractionArray:[Double]) -> Double{
     
     let count = subtractionArray.count
-    let first = subtractionArray[count-2]
-    let second = subtractionArray[count-1]
     
-    return first - second
+    let xNUM = subtractionArray[count-2]
+    let yNUM = subtractionArray[count-1]
+    
+    return xNUM - yNUM
   }
   
   static func performAdditionGiven(_ addendArray:[Double]) ->Double{

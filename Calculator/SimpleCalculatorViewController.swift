@@ -24,6 +24,7 @@ class SimpleCalculatorViewController: UIViewController {
   var numberArray = [Double]()
   var operation = Calculation.Operation.add
   
+  var latestNum = 0.0 // Used to store lastest answer when using it in another operation.
   
   var currentNumber : Int = 0 {
     didSet{
@@ -151,7 +152,7 @@ class SimpleCalculatorViewController: UIViewController {
     }else{
       print("No numbers in array perform this instead")
       mutableNumberString = ""
-      integerArray.removeAll()
+      numberArray.removeAll()
     }
     // whatever operation button is highlighted, should be reversed back to normal. set current operation to false.
     if(isCurrentOperation){
@@ -161,6 +162,9 @@ class SimpleCalculatorViewController: UIViewController {
   }
 
   func processUsingSymbol(_ symbol:String){
+    
+    
+    // When a operation sign is tapped, We will store the number currently on display to the number array.
     
     // returns value of string whether its a integer or a double
     let foo = Calculation.ValueType.getValueFrom(aString: consoleLabel.text!)
