@@ -13,6 +13,32 @@ import UIKit
 
 extension SimpleCalculatorViewController {
   
+  func removeCommasIfAnyAndConvertToDouble(theString: String) -> Double {
+    
+    var numberString = ""
+    
+    for char in theString {
+      
+      if char != "," {
+        
+        numberString.append(char)
+      }
+      
+    }
+    print(numberString)
+    
+    return Double(numberString) ?? 0.0
+  }
+  
+  func convertToNumberWithCommasUsing(_ number: Double) -> String {
+    
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = NumberFormatter.Style.decimal
+    let formattedNumber = numberFormatter.string(from: NSNumber(value: number))
+    
+    return formattedNumber!
+  }
+  
   
   func consoleWillDisplayAnswer(_ answer:Double){
     
@@ -20,10 +46,10 @@ extension SimpleCalculatorViewController {
     
     if floor(answer) == answer {
       print(Int(answer))
-      self.consoleLabel.text = "\(Int(answer))"
+      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     }else{
       print(answer)
-      self.consoleLabel.text = "\(answer)"
+      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     }
     
   }
@@ -34,7 +60,7 @@ extension SimpleCalculatorViewController {
     
     if(isCurrentOperation){
       
-      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
       
       mutableNumberString = ""
@@ -56,7 +82,7 @@ extension SimpleCalculatorViewController {
   func performSubtraction(){
     
     if(isCurrentOperation){
-      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
   
       let difference = Calculation.performSubtractionUsing(numberArray)
@@ -75,7 +101,7 @@ extension SimpleCalculatorViewController {
   func performMultiplication(){
     
     if(isCurrentOperation){
-      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
       let product = Calculation.performMultiplicationUsing(numberArray)
       mutableNumberString = ""
@@ -94,7 +120,7 @@ extension SimpleCalculatorViewController {
   func performDivision(){
     
     if(isCurrentOperation){
-      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
       let quotient = Calculation.performDivisionUsing(numberArray)
       mutableNumberString = ""
@@ -158,15 +184,6 @@ extension Double {
   }
   
   
-  func isDecimalRepeating(_ number:Double) -> Bool {
-    
-    let numberString = "\(number)"
-    
-    
-    
-    
-    
-    return true
-  }
+
   
 }

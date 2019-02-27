@@ -24,10 +24,6 @@ class Calculation {
     case none
   }
   
-
-  static func returnDoubleValue(aString: String) -> Double {
-    return Double(aString) ?? 0.0
-  }
   
   static func negateUsing(_ number:Double) -> Double {
     return number * -1

@@ -56,7 +56,17 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     if sender.tag <= 9, sender.tag >= 0{
       currentNumber = sender.tag
       print(sender.tag)
-    }    
+    }
+    
+    guard let doubleValue = Double(consoleLabel.text!) else{
+      print("Could not convert to Double")
+      return
+    }
+    
+    if doubleValue / 1000 >= 1 {
+      let value = convertToNumberWithCommasUsing(doubleValue)
+      consoleLabel.text = value
+    }
     
 }
   
@@ -110,7 +120,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   
   @IBAction func whenNegateTappedUpInside(_ sender: Any) {
     
-    let numberOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+    let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
     
     let negatedNum = Calculation.negateUsing(numberOnScreen)
     mutableNumberString = ""
@@ -121,7 +131,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   
   @IBAction func whenPercentTappedUpInside(_ sender: Any) {
     
-    let numberOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+    let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
     
     let percentage = Calculation.getPercentageUsing(Double(numberOnScreen))
     mutableNumberString = ""
@@ -170,9 +180,14 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     // When a operation sign is tapped, We will store the number currently on display to the number array.
     
-    let numberDisplayed = Calculation.returnDoubleValue(aString: consoleLabel.text!)
-    numberArray.append(numberDisplayed)
+    guard let currentStringOnConsole = consoleLabel.text else {
+      print("Cannot convert to String type")
+      return
+    }
     
+    let doubleValue = removeCommasIfAnyAndConvertToDouble(theString: currentStringOnConsole)
+    numberArray.append(doubleValue)
+  
     switch symbol {
     case "+":
       print("add")
