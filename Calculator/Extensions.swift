@@ -129,9 +129,11 @@ extension SimpleCalculatorViewController {
       
       if(floor(quotient) == quotient){
         print("is an integer")
-        currentNumber = Int(quotient)
+        
+        consoleWillDisplayAnswer(quotient)
       }else{
-        consoleLabel.text = "\(quotient.rounded(toPlaces: 5))"
+        
+        consoleWillDisplayAnswer(quotient.rounded(toPlaces: 4))
         print("not an integer")
       }
       
