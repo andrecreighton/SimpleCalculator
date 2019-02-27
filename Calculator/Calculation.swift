@@ -24,31 +24,12 @@ class Calculation {
     case none
   }
   
-  enum ValueType {
-    
-    case double(Double)
-    case int(Int)
-    
-    static func getValueFrom(aString: String) -> ValueType {
-      
-      if aString.contains("."){
-        return .double(Double(aString) ?? 0)
-      }else{
-        return .int(Int(aString) ?? 0)
-      }
-    }
-    
-    static func returnDoubleValue(aString: String) -> Double {
-      return Double(aString) ?? 0.0
-    }
-    
-  }
-  
+
   static func returnDoubleValue(aString: String) -> Double {
     return Double(aString) ?? 0.0
   }
   
-  static func negateUsing(_ number:Int) -> Int {
+  static func negateUsing(_ number:Double) -> Double {
     return number * -1
   }
   
@@ -61,22 +42,22 @@ class Calculation {
   static func performDivisionUsing(_ divisionArray:[Double]) -> Double{
     
     let count = divisionArray.count
-    let first = divisionArray[count-2]
-    let second = divisionArray[count-1]
     
-  
-    let quotient = first/second
-    return quotient
+    let xNum = divisionArray[count-2]
+    let yNum = divisionArray[count-1]
+    
+    return xNum / yNum
   
   }
   
-  static func performMultiplicationUsing(_ multiplyArray:[Int]) -> Int{
+  static func performMultiplicationUsing(_ multiplyArray:[Double]) -> Double{
   
-  let count = multiplyArray.count
-  let first = multiplyArray[count-2]
-  let second = multiplyArray[count-1]
+    let count = multiplyArray.count
   
-  return first * second
+    let xNum = multiplyArray[count-2]
+    let yNum = multiplyArray[count-1]
+  
+  return xNum * yNum
   }
   static func performSubtractionUsing(_ subtractionArray:[Double]) -> Double{
     
@@ -94,12 +75,9 @@ class Calculation {
     
     let xNUM = addendArray[count-2]
     let yNUM = addendArray[count-1]
-
-    let sum = xNUM + yNUM
     
-    return sum
+    return xNUM + yNUM
   }
-
   
 
   

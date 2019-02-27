@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SimpleCalculatorViewController: UIViewController {
+class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   
   @IBOutlet weak var consoleLabel: UILabel!
   @IBOutlet var numberButtons: [UIButton]!
@@ -54,10 +54,12 @@ class SimpleCalculatorViewController: UIViewController {
   
   @IBAction func whenNumberButtonTouchUpInside(_ sender: UIButton) {
     if sender.tag <= 9, sender.tag >= 0{
-    currentNumber = sender.tag
-    print(sender.tag)
-    }
+      currentNumber = sender.tag
+      print(sender.tag)
+    }    
+    
 }
+  
   
   @IBAction func whenDecimalPointTouchUpInside(_ sender: Any) {
     
@@ -108,20 +110,22 @@ class SimpleCalculatorViewController: UIViewController {
   
   @IBAction func whenNegateTappedUpInside(_ sender: Any) {
     
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    let numberOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
     
-    let newNum = Calculation.negateUsing(numberOnScreen)
+    let negatedNum = Calculation.negateUsing(numberOnScreen)
     mutableNumberString = ""
-    currentNumber = newNum
+    consoleWillDisplayAnswer(negatedNum)
+ 
     
   }
   
   @IBAction func whenPercentTappedUpInside(_ sender: Any) {
     
-    let numberOnScreen = convertedIntFromString(consoleLabel.text)
+    let numberOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
     
     let percentage = Calculation.getPercentageUsing(Double(numberOnScreen))
     mutableNumberString = ""
+    consoleWillDisplayAnswer(percentage)
     print(percentage)
   //  currentNumber = percentage
     
@@ -166,63 +170,34 @@ class SimpleCalculatorViewController: UIViewController {
     
     // When a operation sign is tapped, We will store the number currently on display to the number array.
     
-    // returns value of string whether its a integer or a double
-    let foo = Calculation.ValueType.getValueFrom(aString: consoleLabel.text!)
-    
-    // adds number to specific array based on type
-    switch foo  {
-    case .double(let numThatIsDouble):
-     // doubleArray.append(numThatIsDouble)
-      numberArray.append(numThatIsDouble)
-      print("number of double value added to Array")
-    case .int(let numThatIsInt):
-      numberArray.append(Double(numThatIsInt))
-      print("number of integer value added to number Array")
-    }
-    
+    let numberDisplayed = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+    numberArray.append(numberDisplayed)
     
     switch symbol {
     case "+":
       print("add")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-      //      let newInt = convertedIntFromString(consoleLabel.text)
-      
-      //integerArray.append(newInt)
       mutableNumberString = ""
       
     case "-":
       print("subtract")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-
-    //  integerArray.append(newInt)
       mutableNumberString = ""
       
     case "x":
       print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-
-   //   integerArray.append(newInt)
       mutableNumberString = ""
       
     case "÷":
       print("divide")
       operation = Calculation.symbolDictionary[symbol] ?? .none
-
- //     doubleArray.append(Double(newInt))
       mutableNumberString = ""
     default:
       print("Nada")
     }
     
   }
-  
-  func convertedIntFromString(_ stringValue: String?) -> Int {
-    
-  let numberValue = Int(stringValue ?? "0")
-  return numberValue!
-  
-  }
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()

@@ -28,7 +28,7 @@ extension SimpleCalculatorViewController {
     
   }
   
-  
+
   func performAddition(){
     // convert String on screen to int value and add it to integerArray. Use the Calculation function performAdditionGiven(:) to get total sum
     
@@ -75,15 +75,18 @@ extension SimpleCalculatorViewController {
   func performMultiplication(){
     
     if(isCurrentOperation){
-      let numberOnScreen = convertedIntFromString(consoleLabel.text)
-      integerArray.append(numberOnScreen)
-      let product = Calculation.performMultiplicationUsing(integerArray)
+      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      numberArray.append(numberCurrentlyOnScreen)
+      let product = Calculation.performMultiplicationUsing(numberArray)
       mutableNumberString = ""
-      currentNumber = product
+      latestNum = product
+      consoleWillDisplayAnswer(latestNum)
+      
     }else{
       // When currentOperation has no value, perform last operation.
       mutableNumberString = ""
-      currentNumber *= integerArray.last!
+      latestNum *= numberArray.last!
+      consoleWillDisplayAnswer(latestNum)
     }
   }
   
@@ -91,12 +94,12 @@ extension SimpleCalculatorViewController {
   func performDivision(){
     
     if(isCurrentOperation){
-      let numberOnScreen = convertedIntFromString(consoleLabel.text)
-      doubleArray.append(Double(numberOnScreen))
-      let quotient = Calculation.performDivisionUsing(doubleArray)
-      
+      let numberCurrentlyOnScreen = Calculation.returnDoubleValue(aString: consoleLabel.text!)
+      numberArray.append(numberCurrentlyOnScreen)
+      let quotient = Calculation.performDivisionUsing(numberArray)
       mutableNumberString = ""
-      print("quotient \(quotient)")
+      latestNum = quotient
+      
       
       if(floor(quotient) == quotient){
         print("is an integer")
@@ -107,8 +110,7 @@ extension SimpleCalculatorViewController {
       }
       
       //currentNumber = quotient
-      
-      
+    
     }
   }
   
@@ -153,6 +155,18 @@ extension Double {
   func rounded(toPlaces places:Int) -> Double {
     let divisor = pow(10.0, Double(places))
     return (self * divisor).rounded() / divisor
+  }
+  
+  
+  func isDecimalRepeating(_ number:Double) -> Bool {
+    
+    let numberString = "\(number)"
+    
+    
+    
+    
+    
+    return true
   }
   
 }
