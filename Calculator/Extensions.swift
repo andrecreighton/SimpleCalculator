@@ -33,10 +33,22 @@ extension SimpleCalculatorViewController {
   func convertToNumberWithCommasUsing(_ number: Double) -> String {
     
     let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = NumberFormatter.Style.decimal
-    let formattedNumber = numberFormatter.string(from: NSNumber(value: number))
     
-    return formattedNumber!
+    print(number/Double(1000000000))
+    if number / Double(1000000000) >= 1{
+      
+      print("We have reached billion")
+        let formattedNumber = number.scientificFormatted
+    
+      return formattedNumber
+    }else{
+      
+      numberFormatter.numberStyle = NumberFormatter.Style.decimal
+      let formattedNumber = numberFormatter.string(from: NSNumber(value: number))
+      
+      return formattedNumber!
+    }
+    
   }
   
   
@@ -145,22 +157,6 @@ extension SimpleCalculatorViewController {
 }
 
 
-extension String {
-  
-  //  let groupingSeparator = "," // determined based on user input, as per the question
-  //
-  //  let formatter = NumberFormatter()
-  //  formatter.positiveFormat = "###,###"
-  //  formatter.negativeFormat = "-###,###"
-  //  formatter.groupingSeparator = groupingSeparator
-  //
-  //  if let string = formatter.string(from: 18686305) {
-  //    print(string) // prints "1868,6305"
-  //  }
-  //
-  
-}
-
 
 extension UIButton {
   
@@ -185,7 +181,19 @@ extension Double {
     return (self * divisor).rounded() / divisor
   }
   
+  var scientificFormatted: String {
+    return Formatter.scientific.string(for: self) ?? ""
+  }
   
-
+}
+extension Formatter {
+  
+  static let scientific: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .scientific
+    formatter.positiveFormat = "0.###E+0"
+    formatter.exponentSymbol = "e"
+    return formatter
+  }()
   
 }

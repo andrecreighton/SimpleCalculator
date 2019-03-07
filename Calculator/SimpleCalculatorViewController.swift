@@ -19,8 +19,6 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   var containsDecimal = false
   var isCurrentOperation = false
   var mutableNumberString = ""
-  var integerArray = [Int]()
-  var doubleArray = [Double]()
   var numberArray = [Double]()
   var operation = Calculation.Operation.add
   
@@ -40,8 +38,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     let zero = 0
     consoleLabel.text = String(zero)
     mutableNumberString = ""
-    integerArray.removeAll()
-    doubleArray.removeAll()
+    numberArray.removeAll()
     containsDecimal = false
     
     if(isCurrentOperation){
