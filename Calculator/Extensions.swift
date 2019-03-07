@@ -25,23 +25,41 @@ extension SimpleCalculatorViewController {
       }
       
     }
-    print(numberString)
     
     return Double(numberString) ?? 0.0
   }
   
   func convertToNumberWithCommasUsing(_ number: Double) -> String {
     
-    let numberFormatter = NumberFormatter()
+    let oneBillion = 1000000000.0
+    let tenThounsandths = 0.0001
+    let oneBillionths = 0.000000001
     
-    print(number/Double(1000000000))
-    if number / Double(1000000000) >= 1{
+    print(number)
+    
+    let numberFormatter = NumberFormatter()
+    if number <= tenThounsandths {
+    
+      let formattedNumber = number.removeNotationFormatted
+      return formattedNumber
       
-      print("We have reached billion")
+    }
+    
+    // TASK : FIGURE THIS OUTT!!
+    if number <= oneBillionths {
+      print("yurr")
+      let formattedNumber = number.scientificFormatted
+      return formattedNumber
+    }
+    
+    
+    if number / oneBillion >= 1{
+      
+      // We have reached 1 Billion
         let formattedNumber = number.scientificFormatted
     
       return formattedNumber
-    }else{
+     }else{
       
       numberFormatter.numberStyle = NumberFormatter.Style.decimal
       let formattedNumber = numberFormatter.string(from: NSNumber(value: number))
@@ -49,18 +67,19 @@ extension SimpleCalculatorViewController {
       return formattedNumber!
     }
     
+
+    
   }
-  
   
   func consoleWillDisplayAnswer(_ answer:Double){
     
     // This prints the answer to the console depending on whether the answer has a double with a number after decimal point
     
     if floor(answer) == answer {
-      print(Int(answer))
+//      print(Int(answer))
       self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     }else{
-      print(answer)
+//      print(answer)
       self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     }
     
@@ -137,20 +156,15 @@ extension SimpleCalculatorViewController {
       let quotient = Calculation.performDivisionUsing(numberArray)
       mutableNumberString = ""
       latestNum = quotient
-      
-      
-      if(floor(quotient) == quotient){
-        print("is an integer")
-        
-        consoleWillDisplayAnswer(quotient)
-      }else{
-        
-        consoleWillDisplayAnswer(quotient.rounded(toPlaces: 4))
-        print("not an integer")
-      }
-      
-      //currentNumber = quotient
     
+      consoleWillDisplayAnswer(quotient)
+    
+    }else{
+      
+      mutableNumberString = ""
+      latestNum = latestNum / numberArray.last!
+      consoleWillDisplayAnswer(latestNum)
+      
     }
   }
   
@@ -185,15 +199,27 @@ extension Double {
     return Formatter.scientific.string(for: self) ?? ""
   }
   
+  var removeNotationFormatted: String {
+    return Formatter.avoidNotation.string(for: self) ?? ""
+  }
+  
 }
 extension Formatter {
   
   static let scientific: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .scientific
-    formatter.positiveFormat = "0.###E+0"
-    formatter.exponentSymbol = "e"
+    formatter.positiveFormat = "0.###e+0"
+    formatter.exponentSymbol = "E"
     return formatter
   }()
   
+  static let avoidNotation: NumberFormatter = {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.maximumFractionDigits = 8
+    numberFormatter.numberStyle = .decimal
+    return numberFormatter
+  }()
+  
+
 }

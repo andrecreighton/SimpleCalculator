@@ -27,7 +27,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   var currentNumber : Int = 0 {
     didSet{
       mutableNumberString = mutableNumberString + String(currentNumber)
-      print("mutableNumberString:\(mutableNumberString)")
+//      print("mutableNumberString:\(mutableNumberString)")
       consoleLabel.text = mutableNumberString
     }
   }
@@ -52,7 +52,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   @IBAction func whenNumberButtonTouchUpInside(_ sender: UIButton) {
     if sender.tag <= 9, sender.tag >= 0{
       currentNumber = sender.tag
-      print(sender.tag)
+//      print(sender.tag)
     }
     
     guard let doubleValue = Double(consoleLabel.text!) else{
@@ -105,7 +105,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
       
     }
     guard let symbol = sender.titleLabel?.text else{
-      print("couldn't translate symbol")
+//      print("couldn't translate symbol")
       return
     }
 
@@ -133,14 +133,14 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     let percentage = Calculation.getPercentageUsing(Double(numberOnScreen))
     mutableNumberString = ""
     consoleWillDisplayAnswer(percentage)
-    print(percentage)
+//    print(percentage)
   //  currentNumber = percentage
     
   }
   
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
 
-    print("Number Array Count \(numberArray.count)")
+    
     if numberArray.count > 0 {
       
     switch operation {
@@ -187,22 +187,22 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   
     switch symbol {
     case "+":
-      print("add")
+//      print("add")
       operation = Calculation.symbolDictionary[symbol] ?? .none
       mutableNumberString = ""
       
     case "-":
-      print("subtract")
+//      print("subtract")
       operation = Calculation.symbolDictionary[symbol] ?? .none
       mutableNumberString = ""
       
     case "x":
-      print("multiply")
+//      print("multiply")
       operation = Calculation.symbolDictionary[symbol] ?? .none
       mutableNumberString = ""
       
     case "÷":
-      print("divide")
+//      print("divide")
       operation = Calculation.symbolDictionary[symbol] ?? .none
       mutableNumberString = ""
     default:
