@@ -20,10 +20,8 @@ extension SimpleCalculatorViewController {
     for char in theString {
       
       if char != "," {
-        
         numberString.append(char)
       }
-      
     }
     
     return Double(numberString) ?? 0.0
@@ -32,25 +30,20 @@ extension SimpleCalculatorViewController {
   func convertToNumberWithCommasUsing(_ number: Double) -> String {
     
     let oneBillion = 1000000000.0
-    let tenThounsandths = 0.0001
-    let oneBillionths = 0.000000001
     
-    print(number)
-    
+  
     let numberFormatter = NumberFormatter()
-    if number <= tenThounsandths {
-    
+    if number < 0.1 {
+
       let formattedNumber = number.removeNotationFormatted
       return formattedNumber
-      
+
     }
+
     
-    // TASK : FIGURE THIS OUTT!!
-    if number <= oneBillionths {
-      print("yurr")
-      let formattedNumber = number.scientificFormatted
-      return formattedNumber
-    }
+    
+
+    
     
     
     if number / oneBillion >= 1{
@@ -66,28 +59,29 @@ extension SimpleCalculatorViewController {
       
       return formattedNumber!
     }
-    
-
-    
+  
   }
   
   func consoleWillDisplayAnswer(_ answer:Double){
     
-    // This prints the answer to the console depending on whether the answer has a double with a number after decimal point
+//    // This prints the answer to the console depending on whether the answer has a double with a number after decimal point
+//    if floor(answer) == answer {
+////      print(Int(answer))
+//      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
+//    }else{
+////      print(answer)
+//      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
+//    }
+//
+
     
-    if floor(answer) == answer {
-//      print(Int(answer))
-      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
-    }else{
-//      print(answer)
-      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
-    }
+    print(1 * pow(10, -22)
+    self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     
   }
   
-
   func performAddition(){
-    // convert String on screen to int value and add it to integerArray. Use the Calculation function performAdditionGiven(:) to get total sum
+    // convert String on screen to double value and add it to integerArray. Use the Calculation function performAdditionGiven(:) to get total sum
     
     if(isCurrentOperation){
       
@@ -95,7 +89,7 @@ extension SimpleCalculatorViewController {
       numberArray.append(numberCurrentlyOnScreen)
       
       mutableNumberString = ""
-      let sum = Calculation.performAdditionGiven(numberArray)
+      let sum = Calculation.performAddition(numberArray)
       latestNum = sum
       consoleWillDisplayAnswer(sum)
       
@@ -106,7 +100,6 @@ extension SimpleCalculatorViewController {
       latestNum += numberArray.last!
       consoleWillDisplayAnswer(latestNum)
       
-      
     }
   }
   
@@ -116,7 +109,7 @@ extension SimpleCalculatorViewController {
       let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
   
-      let difference = Calculation.performSubtractionUsing(numberArray)
+      let difference = Calculation.performSubtraction(numberArray)
       latestNum = difference
       mutableNumberString = ""
       consoleWillDisplayAnswer(difference)
@@ -134,7 +127,7 @@ extension SimpleCalculatorViewController {
     if(isCurrentOperation){
       let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
-      let product = Calculation.performMultiplicationUsing(numberArray)
+      let product = Calculation.performMultiplication(numberArray)
       mutableNumberString = ""
       latestNum = product
       consoleWillDisplayAnswer(latestNum)
@@ -153,16 +146,17 @@ extension SimpleCalculatorViewController {
     if(isCurrentOperation){
       let numberCurrentlyOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
       numberArray.append(numberCurrentlyOnScreen)
-      let quotient = Calculation.performDivisionUsing(numberArray)
+      let quotient = Calculation.performDivision(numberArray)
       mutableNumberString = ""
       latestNum = quotient
-    
-      consoleWillDisplayAnswer(quotient)
+
+      consoleWillDisplayAnswer(latestNum)
     
     }else{
       
       mutableNumberString = ""
-      latestNum = latestNum / numberArray.last!
+      latestNum = Double(latestNum / numberArray.last!)
+      print(latestNum)
       consoleWillDisplayAnswer(latestNum)
       
     }
@@ -216,7 +210,7 @@ extension Formatter {
   
   static let avoidNotation: NumberFormatter = {
     let numberFormatter = NumberFormatter()
-    numberFormatter.maximumFractionDigits = 8
+    numberFormatter.maximumFractionDigits = 22
     numberFormatter.numberStyle = .decimal
     return numberFormatter
   }()

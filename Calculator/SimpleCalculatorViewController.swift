@@ -27,7 +27,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   var currentNumber : Int = 0 {
     didSet{
       mutableNumberString = mutableNumberString + String(currentNumber)
-//      print("mutableNumberString:\(mutableNumberString)")
+
       consoleLabel.text = mutableNumberString
     }
   }
@@ -86,12 +86,12 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     
     if !(isCurrentOperation){
-      print("no current operation")
+      print("operation selected")
       sender.reverseColorEffect()
       currentOperationButton = sender
       isCurrentOperation = true
     }else{
-      print("current opertaion highlighted")
+      
       for button in operationButtons {
         if button == sender {
          //do nothing
@@ -119,7 +119,7 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     
     let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
     
-    let negatedNum = Calculation.negateUsing(numberOnScreen)
+    let negatedNum = Calculation.negate(numberOnScreen)
     mutableNumberString = ""
     consoleWillDisplayAnswer(negatedNum)
  
@@ -128,19 +128,21 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   
   @IBAction func whenPercentTappedUpInside(_ sender: Any) {
     
+    if consoleLabel.text!.isEmpty {
+      //do nothing
+      // 0 is always in the console, but just for extra precaution
+    }else{
     let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
-    
-    let percentage = Calculation.getPercentageUsing(Double(numberOnScreen))
+    let percentage = Calculation.getPercentage(Double(numberOnScreen))
     mutableNumberString = ""
     consoleWillDisplayAnswer(percentage)
-//    print(percentage)
-  //  currentNumber = percentage
+
+    }
     
   }
   
   @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
 
-    
     if numberArray.count > 0 {
       
     switch operation {

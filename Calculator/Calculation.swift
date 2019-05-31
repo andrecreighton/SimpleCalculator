@@ -25,17 +25,17 @@ class Calculation {
   }
   
   
-  static func negateUsing(_ number:Double) -> Double {
+  static func negate(_ number:Double) -> Double {
     return number * -1
   }
   
-  static func getPercentageUsing(_ number:Double) -> Double {
+  static func getPercentage(_ number:Double) -> Double {
     return number/100
   }
   
   
   
-  static func performDivisionUsing(_ divisionArray:[Double]) -> Double{
+  static func performDivision(_ divisionArray:[Double]) -> Double{
     
     let count = divisionArray.count
     
@@ -46,7 +46,7 @@ class Calculation {
   
   }
   
-  static func performMultiplicationUsing(_ multiplyArray:[Double]) -> Double{
+  static func performMultiplication(_ multiplyArray:[Double]) -> Double{
   
     let count = multiplyArray.count
   
@@ -55,7 +55,7 @@ class Calculation {
   
   return xNum * yNum
   }
-  static func performSubtractionUsing(_ subtractionArray:[Double]) -> Double{
+  static func performSubtraction(_ subtractionArray:[Double]) -> Double{
     
     let count = subtractionArray.count
     
@@ -65,7 +65,7 @@ class Calculation {
     return xNUM - yNUM
   }
   
-  static func performAdditionGiven(_ addendArray:[Double]) ->Double{
+  static func performAddition(_ addendArray:[Double]) ->Double{
 
     let count = addendArray.count
     
