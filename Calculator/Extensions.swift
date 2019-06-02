@@ -39,10 +39,6 @@ extension SimpleCalculatorViewController {
       return formattedNumber
 
     }
-
-    
-    
-
     
     
     
@@ -73,11 +69,19 @@ extension SimpleCalculatorViewController {
 //      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
 //    }
 //
-
+    let smallestAcceptedNumber = 1.0 * pow(10.0, -22)
+    let largestAcceptedNumber = 1.0 * pow(10.0, 100)
     
-    print(1 * pow(10, -22)
-    self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
     
+    if answer < smallestAcceptedNumber || answer > largestAcceptedNumber {
+      print("Stop here")
+      self.consoleLabel.text = "ERROR"
+    }else{
+      self.consoleLabel.text = convertToNumberWithCommasUsing(answer)
+    }
+    
+  
+  
   }
   
   func performAddition(){
@@ -151,6 +155,8 @@ extension SimpleCalculatorViewController {
       latestNum = quotient
 
       consoleWillDisplayAnswer(latestNum)
+      
+      
     
     }else{
       
