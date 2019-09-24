@@ -15,116 +15,71 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
   @IBOutlet var operationButtons: [UIButton]!
   @IBOutlet weak var decimalButton: UIButton!
   
+  
+  @IBOutlet weak var subtractionButton: UIButton!
+  @IBOutlet weak var multiplicationButton: UIButton!
+  @IBOutlet weak var divisionButton: UIButton!
+  
   var currentOperationButton = UIButton()
-  var containsDecimal = false
   var isCurrentOperation = false
-  var mutableNumberString = ""
   var numberArray = [Double]()
   var operation = Calculation.Operation.add
+  var numberOnScreen : Double = 0
+  var numberString = ""
+  var nonIntegerValue = false
+  var numB = 0.0
   
-  var latestNum = 0.0 // Used to store lastest answer when using it in another operation.
+  var currentAnswer = 0.0 // Used to store lastest answer when using it in another operation.
   
-  var currentNumber : Int = 0 {
-    didSet{
-      mutableNumberString = mutableNumberString + String(currentNumber)
 
-      consoleLabel.text = mutableNumberString
-    }
-  }
-
-
-  @IBAction func whenClearButtonTouchUpInside(_ sender: Any) {
+  @IBAction func whenClearButtonTouchUpInside(_ sender: UIButton) {
+  
     
-    let zero = 0
-    consoleLabel.text = String(zero)
-    mutableNumberString = ""
+    numberString = ""
+    consoleLabel.text = String(0)
     numberArray.removeAll()
-    containsDecimal = false
+    nonIntegerValue = false
+  
     
     if(isCurrentOperation){
-      currentOperationButton.reverseColorEffect()
+      currentOperationButton.normalColor()
       isCurrentOperation = false
     }
-
     
   }
   
   @IBAction func whenNumberButtonTouchUpInside(_ sender: UIButton) {
-    if sender.tag <= 9, sender.tag >= 0{
-      currentNumber = sender.tag
-//      print(sender.tag)
+    
+    if sender.tag <= 9, sender.tag >= 0 {
+  
+      numberString = numberString + String(sender.tag)
+      consoleLabel.text = numberString
+  
+      print(numberString)
+      
     }
     
-    guard let doubleValue = Double(consoleLabel.text!) else{
-      print("Could not convert to Double")
-      return
+    if isCurrentOperation {
+      
+      currentOperationButton.normalColor()
+  
     }
-    
-    if doubleValue / 1000 >= 1 {
-      let value = convertToNumberWithCommasUsing(doubleValue)
-      consoleLabel.text = value
-    }
-    
 }
   
   
   @IBAction func whenDecimalPointTouchUpInside(_ sender: Any) {
     
-    if(containsDecimal){
+    if(nonIntegerValue){
       // do nothing
     }else{
-      mutableNumberString.append(".")
-      consoleLabel.text?.append(".")
-      containsDecimal = true
+      
+      numberString.append(".")
+      consoleLabel.text = numberString
+      nonIntegerValue = true
     }
-    
-    
+  
   }
-  
-  
-  @IBAction func whenActionButtonTouchedUpInside(_ sender: UIButton) {
-    
-    
-    if !(isCurrentOperation){
-      print("operation selected")
-      sender.reverseColorEffect()
-      currentOperationButton = sender
-      isCurrentOperation = true
-    }else{
-      
-      for button in operationButtons {
-        if button == sender {
-         //do nothing
-        }else{
-          sender.reverseColorEffect()
-          currentOperationButton.reverseColorEffect()
-          currentOperationButton = sender
-          isCurrentOperation = true
-        }
-      }
-      
-    }
-    guard let symbol = sender.titleLabel?.text else{
-//      print("couldn't translate symbol")
-      return
-    }
 
-    
-    containsDecimal = false
-    processUsingSymbol(symbol)
-    
-  }
-  
-  @IBAction func whenNegateTappedUpInside(_ sender: Any) {
-    
-    let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
-    
-    let negatedNum = Calculation.negate(numberOnScreen)
-    mutableNumberString = ""
-    consoleWillDisplayAnswer(negatedNum)
- 
-    
-  }
   
   @IBAction func whenPercentTappedUpInside(_ sender: Any) {
     
@@ -132,83 +87,171 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
       //do nothing
       // 0 is always in the console, but just for extra precaution
     }else{
-    let numberOnScreen = removeCommasIfAnyAndConvertToDouble(theString: consoleLabel.text!)
-    let percentage = Calculation.getPercentage(Double(numberOnScreen))
-    mutableNumberString = ""
-    consoleWillDisplayAnswer(percentage)
-
+    let numberOnScreen = fromStringToDouble(theString: numberString)
+    consoleLabel.text = String(Calculation.getPercentage(Double(numberOnScreen)))
+    numberString = ""
+    }
+  }
+  
+  @IBAction func whenNegateTappedUpInside(_ sender: Any) {
+    
+    if !numberString.isEmpty{
+      
+      if nonIntegerValue {
+        
+        print("double value")
+        let double = Double(numberString)
+        numberString = String( -1 * double!)
+        consoleLabel.text = numberString
+        
+      }else{
+        
+        let int = Int(numberString)
+        numberString = String(-1 * int!)
+        consoleLabel.text = numberString
+        
+      }
+      
     }
     
   }
   
-  @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
-
-    if numberArray.count > 0 {
+  @IBAction func whenActionButtonTouchedUpInside(_ sender: UIButton) {
+    
+   
+    if numberString != "0", numberString != ""{
+       // convert to double, add to numberarray
+      // clear console for next number input
+        let stringConvertedToNumber = Double(numberString)
+        numberArray.append(stringConvertedToNumber!)
+        numberString = ""
       
+    }else{
+      // add the number zero to array for zero needs to be in console as the default
+      numberArray.append(0)
+    }
+  
+    
+ // get currentOpertaion
+    if !(isCurrentOperation){
+      sender.selectedColor()
+      currentOperationButton = sender
+      isCurrentOperation = true
+    }else{
+      
+    //check to see if any other button is highlighted. If so, change that button back to normal
+    //and make new operationbutton highlighted and becomes new currentOperation
+      
+      for button in operationButtons {
+        if button == sender {
+          //do nothing
+        }else{
+          sender.selectedColor()
+          currentOperationButton.normalColor()
+          currentOperationButton = sender
+          isCurrentOperation = true
+        }
+      }
+      
+    }
+    // get the operationSymbol
+    guard let operationSymbol = sender.titleLabel?.text else{
+      //      print("couldn't translate symbol")
+      return
+    }
+    
+    // reset nonIntegerValue for next number input
+    nonIntegerValue = false
+    
+    //
+    processUsingSymbol(operationSymbol)
+    
+    
+    if numberArray.count == 2{
+    
+      performOperation()
+      let newFirst = currentAnswer
+      numberArray.removeAll()
+      numberArray.append(newFirst)
+      
+    }
+    
+  }
+  
+  func processUsingSymbol(_ symbol:String){
+    
+    switch symbol {
+    case "+":
+      //      print("add")
+      operation = Calculation.symbolDictionary[symbol] ?? .none
+      
+    case "-":
+      //      print("subtract")
+      operation = Calculation.symbolDictionary[symbol] ?? .none
+      
+    case "x":
+      //      print("multiply")
+      operation = Calculation.symbolDictionary[symbol] ?? .none
+      
+    case "÷":
+      //      print("divide")
+      operation = Calculation.symbolDictionary[symbol] ?? .none
+  
+    default:
+      print("Nada")
+    }
+    
+  }
+  
+  func performOperation(){
+    
     switch operation {
     case .add:
       performAddition()
-      mutableNumberString = ""
     case .subtract:
       performSubtraction()
-      mutableNumberString = ""
     case .mulitply:
       performMultiplication()
-      mutableNumberString = ""
     case .divide:
       performDivision()
-      mutableNumberString = ""
     default:
       print("do nothing")
     }
     
-    }else{
-      print("No numbers in array perform this instead")
-      mutableNumberString = ""
-      numberArray.removeAll()
-    }
-    // whatever operation button is highlighted, should be reversed back to normal. set current operation to false.
-    if(isCurrentOperation){
-      currentOperationButton.reverseColorEffect()
-      isCurrentOperation = false
-    }
   }
-
-  func processUsingSymbol(_ symbol:String){
-    
-    
-    // When a operation sign is tapped, We will store the number currently on display to the number array.
-    
-    guard let currentStringOnConsole = consoleLabel.text else {
-      print("Cannot convert to String type")
-      return
-    }
-    
-    let doubleValue = removeCommasIfAnyAndConvertToDouble(theString: currentStringOnConsole)
-    numberArray.append(doubleValue)
   
-    switch symbol {
-    case "+":
-//      print("add")
-      operation = Calculation.symbolDictionary[symbol] ?? .none
-      mutableNumberString = ""
+  
+  @IBAction func whenEqualButtonTappedUpInside(_ sender: UIButton) {
+    
+    // when equal tapped, set number to value in console.
+    // add number to array if array less than 2
+    
+    if numberArray.count < 2 {
+      numberString = consoleLabel.text!
+      let stringConvertedToNumber = Double(numberString)
+      numberArray.append(stringConvertedToNumber!)
+    
+      if(isCurrentOperation){
+        performOperation()
+        currentOperationButton.normalColor()
+        isCurrentOperation = false
+      }else{
+        print("no current operation, perform \(operation)")
+        performOperation()
+      }
+  }
+    
+    if numberArray.count == 2 {
       
-    case "-":
-//      print("subtract")
-      operation = Calculation.symbolDictionary[symbol] ?? .none
-      mutableNumberString = ""
+        if(isCurrentOperation){
+          performOperation()
+          currentOperationButton.normalColor()
+          isCurrentOperation = false
+      }else{
+        print("no current operation, perform \(operation)")
+        performOperation()
+      }
       
-    case "x":
-//      print("multiply")
-      operation = Calculation.symbolDictionary[symbol] ?? .none
-      mutableNumberString = ""
-      
-    case "÷":
-//      print("divide")
-      operation = Calculation.symbolDictionary[symbol] ?? .none
-      mutableNumberString = ""
-    default:
-      print("Nada")
     }
     
   }
@@ -225,11 +268,5 @@ class SimpleCalculatorViewController: UIViewController, UITextFieldDelegate {
     return false
   }
 }
-
-
-
-
-
-// TASK : WHEN CALCULATIONS COMPLETE, START ADDING DOUBLE VALUES
 
 

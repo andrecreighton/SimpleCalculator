@@ -24,7 +24,6 @@ class Calculation {
     case none
   }
   
-  
   static func negate(_ number:Double) -> Double {
     return number * -1
   }
@@ -32,8 +31,6 @@ class Calculation {
   static func getPercentage(_ number:Double) -> Double {
     return number/100
   }
-  
-  
   
   static func performDivision(_ divisionArray:[Double]) -> Double{
     

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -359,6 +359,9 @@
                     <connections>
                         <outlet property="consoleLabel" destination="0pj-Kz-SuO" id="OWf-OC-jg5"/>
                         <outlet property="decimalButton" destination="dAA-80-rXB" id="Tel-Yy-gXU"/>
+                        <outlet property="divisionButton" destination="gQe-i5-xnW" id="9Jd-WZ-X5o"/>
+                        <outlet property="multiplicationButton" destination="Uwa-47-0Di" id="yeA-Sg-1vY"/>
+                        <outlet property="subtractionButton" destination="lrS-Sf-eaD" id="mwC-xk-uMG"/>
                         <outletCollection property="numberButtons" destination="94W-uA-uD3" collectionClass="NSMutableArray" id="PeN-qh-GjY"/>
                         <outletCollection property="operationButtons" destination="WOe-hK-anw" collectionClass="NSMutableArray" id="nkc-GV-D5C"/>
                         <outletCollection property="operationButtons" destination="lrS-Sf-eaD" collectionClass="NSMutableArray" id="kat-Y5-bKF"/>
